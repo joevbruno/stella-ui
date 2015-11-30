@@ -9,7 +9,7 @@ var path = require('path');
 
 module.exports = {
   debug: false,
-  devtool: '#eval',
+  devtool: 'eval',
   context: path.resolve(__dirname),
   entry: [
     './src/index.js'
@@ -18,7 +18,8 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
     publicPath: '/static/', // this is basically store in memory
-    pathinfo: true
+    pathinfo: true,
+    devtoolModuleFilenameTemplate: '/[absolute-resource-path]'
   },
 
   module: {

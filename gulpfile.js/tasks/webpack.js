@@ -20,25 +20,28 @@ const devServer = {
 };
 
 module.exports = {
-  debug: false,
   devServer: devServer,
-  devtool: '#source-map',
+  cache: false,
+  debug: true,
+  devtool: 'eval',
   context: path.resolve(__dirname, '../../' ),
   entry: [
     'webpack/hot/dev-server',
     'webpack-hot-middleware/client?reload=true',
+    'webpack/hot/only-dev-server', //// "only" prevents reload on syntax errors
     './example/src/scripts/index.js'
   ],
   output: {
     path: path.resolve(__dirname, '../../example/public'),
     filename: 'bundle.js',
     publicPath: '/static/', // this is basically store in memory
-    pathinfo: true
+    pathinfo: true,
+    devtoolModuleFilenameTemplate: '/[absolute-resource-path]'
   },
 
   module: {
     loaders: [
-      { test: /\.js?$/, exclude: /node_modules/, loader: 'babel-loader' },
+      { test: /\.js?$/, exclude: /node_modules/, loaders: ['react-hot', 'babel-loader'] },
       { test: /\.html$/, loader: 'html-loader' },
     ],
   },
@@ -47,7 +50,6 @@ module.exports = {
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
-    new webpack.OldWatchingPlugin(),
     new webpack.optimize.DedupePlugin(),
   ]
 };

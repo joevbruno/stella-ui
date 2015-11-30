@@ -3,14 +3,14 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import mixin from 'mixin-decorator';
 import Input from '../input';
 import Button from '../button';
-import Autocomplete from '../autocomplete';
-import Checkbox from '../checkbox';
-import DatePicker from '../date_picker';
 import Dropdown from '../dropdown';
-import RadioGroup from '../radio_group';
-import Slider from '../slider';
-import Switch from '../switch';
-import TimePicker from '../time_picker';
+// import Autocomplete from '../autocomplete';
+// import Checkbox from '../checkbox';
+// import DatePicker from '../date_picker';
+// import RadioGroup from '../radio_group';
+// import Slider from '../slider';
+// import Switch from '../switch';
+// import TimePicker from '../time_picker';
 
 function getState() {
   return {
@@ -19,15 +19,14 @@ function getState() {
   };
 }
 
-@mixin(PureRenderMixin)
 export default class Form extends React.Component {
   static displayName = 'Form';
   static propTypes = {
-    attributes: React.PropTypes.array,
+    attributes: React.PropTypes.array.isRequired,
     validation: React.PropTypes.func,
     patterns: React.PropTypes.func,
     name: React.PropTypes.string.isRequired,
-    addSubmitButton: React.PropTypes.oneOf(['boolean', 'object']),
+    addSubmitButton: React.PropTypes.any,
     className: React.PropTypes.string,
     onChange: React.PropTypes.func,
     removeDivider: React.PropTypes.bool,
@@ -52,11 +51,20 @@ export default class Form extends React.Component {
     }
   }
   onChange = (key, event) => {
-    const val = event.target.value;
+    let val;
+    console.log(key, event.target.value);
+    if (typeof key === 'object' ) {
+      val = key.val;
+      key = key.key;
+    } else {
+     val = event.target.value;
+    }
     let isFormValid = false;
     const dataState = this.state.data || {};
+    console.log(key);
+    dataState[key] = {};
     dataState[key].value = val;
-
+console.log(dataState);
     if (this.props.validation) {
       const isValid = this.props.validation(val, key);
       dataState[key].valid = isValid.bool;
@@ -70,7 +78,7 @@ export default class Form extends React.Component {
     }
 
     const formAttrs = this.props.attributes.filter( (attr) => {
-      if ((attr.component !== 'Button' || attr.component !== 'Divider') && !this.state.data[attr.ref].valid) {
+      if ((attr.component !== 'Button' || attr.component !== 'Divider') && (dataState[attr.name] && !dataState[attr.name].valid)) {
         return attr;
       }
     });
@@ -91,8 +99,11 @@ export default class Form extends React.Component {
     });
   }
   constructAttributes = () => {
-    const storedValues = JSON.parse(window.localStorage.getItem(this.props.name) || {});
-    let button = { type: 'submit', label: 'Submit', disabled: false };
+    let storedValues = {};
+    if (window.localStorage.getItem(this.props.name)) {
+      storedValues = JSON.parse(window.localStorage.getItem(this.props.name));
+    }
+    let button = { type: 'submit', label: 'Submit', disabled: false, component: 'Button' };
     let attributes = this.props.attributes;
     if (attributes && typeof attributes[0] === 'object') {
       attributes = [attributes];
@@ -104,35 +115,41 @@ export default class Form extends React.Component {
       return a.concat(b);
     });
     if (this.props.addSubmitButton
-      && typeof this.props.addSubmitButton !== 'object') {
+      && typeof this.props.addSubmitButton === 'object') {
       button = this.props.addSubmitButton;
     } else if (!this.props.addSubmitButton) {
       button = null;
     }
 
-    if (button) { flattened = flattened.concat(button); }
+    if (button) {
+      flattened = flattened.concat(button);
+    }
 
     return flattened.map( (attr) => {
-      if (storedValues && storedValues[attr.ref]) {
-        attr.value = storedValues[attr.ref];
+      if (storedValues && storedValues[attr.name]) {
+        attr.value = storedValues[attr.name];
       }
-      if (this.state.data && this.state.data[attr.ref]) {
-        attr.value = this.state.data[attr.ref];
+      if (this.state.data && this.state.data[attr.name] && this.state.data[attr.name].value) {
+        attr.value = this.state.data[attr.name].value;
       }
-      if (this.state.formatted && this.state.formatted[attr.ref]) {
-        attr.value = this.state.formatted[attr.ref];
+      if (this.state.data &&  this.state.data[attr.name] && this.state.data[attr.name].formatted) {
+        attr.value = this.state.data[attr.name].formatted;
       }
+      console.log(attr, this.state.data);
       return attr;
     });
   }
   render() {
     const className = this.props.className ? `${this.props.className}` : 'o-form';
     const attributes = this.constructAttributes(this.props.attributes).map( (attribute, index) => {
+      console.log(attribute, 'rendering');
       if (attribute.component === 'Button') {
         attribute.disabled = !this.state.formValid;
         return <Button key={index} {...attribute} />;
       } else if (attribute.component === 'Input') {
-        return <Input key={index} {...attribute} onChange={this.onChange.bind(attribute.ref) } />;
+        return <Input key={index} {...attribute} onChange={this.onChange} />;
+      } else if (attribute.component === 'Dropdown') {
+        return <Dropdown key={index} {...attribute} onChange={this.onChange}/>;
       }
     });
     return (
@@ -156,9 +173,7 @@ export default class Form extends React.Component {
  //      //   return <Checkbox key={index} {...attribute} onChange={this.onChange}/>;
  //      // } else if (attribute.type === 'date_picker') {
  //      //   return <DatePicker key={index} {...attribute} onChange={this.onChange}/>;
- //      } else if (attribute.type === 'dropdown') {
- //        return <Dropdown key={index} {...attribute} change={this.onChange}/>;
- //      //}
+ //      }
  //      // else if (attribute.type === 'radio_group') {
  //      //   return <RadioGroup key={index} {...attribute} onChange={this.onChange}/>;
  //      // } else if (attribute.type === 'slider') {

@@ -41,7 +41,7 @@ export default class Dropdown extends React.Component {
         let className;
         if (item.value === this.props.value) className = `select-item is-selected`;
         return (
-          <li key={index} className={className} onClick={this.props.onChange.bind(this, item.value)} >
+          <li key={index} className={className} onClick={this.props.onChange.bind(this, {key: this.props.name, val: item.value})} >
             { this.props.template ? this.props.template(item) : item.label }
             <Ripple />
           </li>
@@ -64,6 +64,7 @@ export default class Dropdown extends React.Component {
 
       return (
         <div className={className}>
+          {this.props.value}
             {this.props.label ? <label className="dropdown__label">{this.props.label}</label> : null}
             { this.renderValues() }
             <div ref="value" className="dropdown__value" onClick={this.handleClick}>

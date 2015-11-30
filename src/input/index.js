@@ -20,6 +20,7 @@ export default class Input extends React.Component {
     required: React.PropTypes.bool,
     type: React.PropTypes.string,
     value: React.PropTypes.any,
+    name: React.PropTypes.string,
     validation: React.PropTypes.any
   };
 
@@ -34,7 +35,7 @@ export default class Input extends React.Component {
 
   renderInput = () => {
     let className = 'o-input__body';
-    if (this.state.value && this.state.value.length > 0) className += ` is-active`;
+    if (this.props.value && this.props.value.length > 0) className += ` is-active`;
     let input;
     if (this.props.multiline) {
       input = (
@@ -50,7 +51,7 @@ export default class Input extends React.Component {
           role="input"
           {...this.props}
           className={className}
-          onChange={this.props.onChange}
+          onChange={this.props.onChange.bind(this, this.props.name)}
            />
       );
     }
