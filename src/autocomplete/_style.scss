@@ -1,0 +1,65 @@
+
+@import "./config";
+
+.autocomplete {
+  position: relative;
+  &.is-focused {
+    .autocomplete__label {
+      color: $autocomplete-color-primary;
+    }
+    .autocomplete__suggestions {
+      max-height: $autocomplete-overflow-max-height;
+      visibility: visible;
+      box-shadow: $zdepth-shadow-1;
+    }
+  }
+}
+
+.autocomplete__label {
+  font-size: $font-size-tiny;
+  color: $color-text-secondary;
+  transition: color $animation-duration $animation-curve-default;
+}
+
+.autocomplete__value {
+  display: inline-block;
+  padding: $autocomplete-value-padding;
+  margin: $autocomplete-value-margin;
+  font-size: $font-size-tiny;
+  color: $autocomplete-color-primary-contrast;
+  cursor: pointer;
+  background-color: $autocomplete-color-primary;
+  border-radius: $autocomplete-value-border-radius;
+}
+
+.autcomplete__suggestions {
+  position: absolute;
+  z-index: $z-index-high;
+  max-height: 0;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  visibility: hidden;
+  background-color: $autocomplete-suggestions-background;
+  transition-timing-function: $animation-curve-default;
+  transition-duration: $animation-duration;
+  transition-property: max-height, box-shadow;
+  &:not(.is-up) {
+    bottom: auto;
+  }
+  &.is-up {
+    top: auto;
+    bottom: 0;
+  }
+}
+
+.autocomplete__suggestion {
+  padding: $autocomplete-suggestion-padding;
+  cursor: pointer;
+  &.active {
+    background-color: $autocomplete-suggestion-active-background;
+  }
+}
+
+.input {
+  padding-bottom: 0;
+}

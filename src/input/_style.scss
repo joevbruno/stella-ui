@@ -1,0 +1,125 @@
+
+@import "./config";
+
+.o-input {
+  position: relative;
+  padding: $input-padding 0;
+  max-width: 300px;
+  text-align: center;
+  display: flex;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+
+.o-input__body {
+  display: block;
+  width: 100%;
+  padding: $input-field-padding 0;
+  font-size: $input-field-font-size;
+  color: $color-text;
+  background-color: $input-text-background-color;
+  border: 0;
+  margin: 0; 
+  border-bottom: 1px solid $input-text-bottom-border-color;
+  outline: none;
+
+  &:focus {
+    ~ .o-input__bar:before, ~ .o-input__bar:after {
+      width: 50%;
+    }
+
+    ~ .o-input__label:not(.is-fixed) {
+      color: $input-text-highlight-color;
+    }
+  }
+
+  &:focus, &.is-filled {
+    ~ .o-input__label:not(.is-fixed) {
+      top: $input-focus-label-top;
+      font-size: $input-label-font-size;
+    }
+  }
+
+  &.is-filled ~ .o-input__label.is-fixed {
+    display: none;
+  }
+}
+
+.o-input__label {
+  position: absolute;
+  top: $input-padding + (1.5 * $input-field-padding);
+  left: 10px;
+  font-size: $input-field-font-size;
+  line-height: $input-field-font-size;
+  color: white;
+  pointer-events: none;
+  transition-timing-function: $animation-curve-default;
+  transition-duration: $animation-duration;
+  transition-property: top, font-size, color;
+}
+
+.o-input__bar {
+  position: relative;
+  display: block;
+  width: 100%;
+
+  &:before, &:after {
+    @include material-animation-default();
+    position: absolute;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    content: "";
+    background-color: $input-text-highlight-color;
+    transition-property: width, background-color;
+  }
+
+  &:before {
+    left: 50%;
+  }
+
+  &:after {
+    right: 50%;
+  }
+}
+  .o-input.has-content  .o-input__label {
+      top: $input-focus-label-top;
+      font-size: $input-label-font-size;
+      color: green;
+  }
+.o-input__error {
+  opacity: 0;
+  padding-left: 10px;
+}
+
+.o-input__error.is-errored {
+  font-size: $input-label-font-size;
+  line-height: 1.6 * $unit;
+  color: $input-text-error-color;
+  padding-bottom: 0;
+  opacity: 1;
+  transition: all 0.5s ease; 
+
+  > .input {
+    border-bottom-color: $input-text-error-color;
+
+    &:focus {
+      ~ .o-input__label:not(.is-fixed) {
+        color: $input-text-error-color;
+      }
+
+      ~ .o-input__bar:before, ~ .o-input__bar:after {
+        background-color: $input-text-error-color;
+      }
+    }
+  }
+}
+.is-disabled > .input {
+  color: $input-text-disabled-text-color;
+  border-bottom-style: dotted;
+}
+
+.is-hidden {
+  display: none;
+}
