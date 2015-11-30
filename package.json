@@ -14,6 +14,14 @@
   ],
   "author": "Joe Bruno",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/joevbruno/stella-ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/joevbruno/stella-ui/issues"
+  },
+  "homepage": "https://github.com/joevbruno/stella-ui",
   "dependencies": {
     "mixin-decorator": "^1.0.5",
     "react": "^0.14.3",
@@ -31,6 +39,7 @@
     "bs-html-injector": "^3.0.0",
     "chai": "^3.4.1",
     "classnames": "^2.2.1",
+    "connect-logger": "0.0.1",
     "debug": "^2.2.0",
     "del": "^2.1.0",
     "errorhandler": "^1.4.2",
@@ -44,7 +53,10 @@
     "gulp-filter": "^3.0.1",
     "gulp-foreach": "^0.1.0",
     "gulp-htmlmin": "^1.2.0",
+    "gulp-if": "^2.0.0",
+    "gulp-imagemin": "^2.4.0",
     "gulp-minify-css": "^1.2.1",
+    "gulp-notify": "^2.2.0",
     "gulp-postcss": "^6.0.1",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.1.0",

@@ -14,7 +14,6 @@ import gutil from 'gulp-util';
 import connect from 'connect-logger';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
-import proxyMiddleWare from 'http-proxy-middleware';
 
 gulp.task('browserSync', () => {
     let bundler = webpack(webpackConfig);
@@ -23,11 +22,7 @@ gulp.task('browserSync', () => {
         server: {
             baseDir: './example/public',
             middleware: [
-                function (req, res, next) {
-                    console.log('Hi from middleware');
-                    next();
-                },
-                connect(), // log HTTP connections (GET, POST) to terminal
+                //connect(), // log HTTP connections (GET, POST) to terminal
                 webpackHotMiddleware(bundler), // live inject JS
                 webpackDevMiddleware(bundler, {
                     publicPath: webpackConfig.output.publicPath,
