@@ -1,0 +1,82 @@
+/*------------------------------------*\
+   COLOR FUNCTIONS
+   NOTE: THESE FUNCTIONS ARE IN ADDITION TO SASS'S NATIVE COLOR FUNCTIONS.
+\*------------------------------------*/
+
+//// 
+/// @group Colors
+/// @source http://sass-lang.com/documentation/Sass/Script/Functions.html
+////
+
+@charset "UTF-8";
+
+/// Get a color from the $colors sass map
+/// @group Colors
+/// @param {String} key [blue] - The key to the $colors source map of the desired color
+@function get-color($key: 'blue') {
+    @return map-get($colors, $key);
+}
+
+
+/// Get a color from the $colors--status sass map
+/// @group Colors
+/// @param {String} key [primary] - The key to the $colors--status source map of the desired color
+/// @requires $colors
+@function get-color-by-status($key: 'primary') {
+    @return map-get($colors--status, $key);
+}
+
+/// Programatically determines whether a color is light or dark.
+/// @link http://robots.thoughtbot.com/closer-look-color-lightness
+/// @param {Color (Hex)} $color
+/// @example scss - Usage
+///   is-light($color)
+/// @return {Bool}
+
+@function is-light($hex-color) {
+  $-local-red: red(rgba($hex-color, 1));
+  $-local-green: green(rgba($hex-color, 1));
+  $-local-blue: blue(rgba($hex-color, 1));
+  $-local-lightness: ($-local-red * 0.2126 + $-local-green * 0.7152 + $-local-blue * 0.0722) / 255;
+  @return $-local-lightness > 0.6;
+}
+
+
+/// Mixes a color with black.
+/// @param {Color} $color
+/// @param {Number (Percentage)} $percent The amount of black to be mixed in.
+/// @example scss - Usage
+///   .element {
+///     background-color: shade(#ffbb52, 60%);
+///   }
+/// @example css - CSS Output
+///   .element {
+///     background-color: #664a20;
+///   }
+/// @return {Color}
+
+@function shade($color, $percent) {
+  @return mix(#000, $color, $percent);
+}
+
+/// Mixes a color with white.
+/// @param {Color} $color
+/// @param {Number (Percentage)} $percent The amount of white to be mixed in.
+/// @example scss - Usage
+///   .element {
+///     background-color: tint(#6ecaa6, 40%);
+///   }
+/// @example css - CSS Output
+///   .element {
+///     background-color: #a8dfc9;
+///   }
+/// @return {Color}
+
+@function tint($color, $percent) {
+  @return mix(#fff, $color, $percent);
+}
+
+
+
+
+

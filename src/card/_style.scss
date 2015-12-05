@@ -1,0 +1,125 @@
+
+@import "./config";
+
+.o-figure {
+  position: relative;
+  display: flex;
+  min-height: $card-title-height;
+  flex-direction: column;
+  background-position: center center;
+  background-size: cover;
+  justify-content: flex-end;
+
+  > *:not(.is-overflow) {
+    z-index: 1;
+    font-weight: $font-weight-normal;
+  }
+
+  > .is-overflow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    opacity: .75;
+  }
+}
+
+.o-card__text {
+  font-size: $font-size-small;
+  line-height: 1.8 * $unit;
+  color: $color-text-secondary;
+}
+
+.o-card__navigation {
+  padding: $card-navigation-offset;
+
+  > * {
+    min-width: 0;
+    padding-right: $card-navigation-offset;
+    padding-left: $card-navigation-offset;
+  }
+}
+
+.ripple {
+  background-color: $color-text-secondary;
+}
+
+.o-card {
+  @include shadow-2dp();
+  position: relative;
+  min-width: 100px;
+  min-height: 100px;
+  display: flex;
+  margin: 24px;
+  width: $card-width-normal;
+  flex-direction: column;
+  overflow: hidden;
+  vertical-align: top;
+  background: $color-background;
+
+  // -- Children
+  > *:not(.o-card__navigation) {
+    padding: $card-offset;
+  }
+
+  &:not(.color) > *:not(.figure), > *:not(:last-child) {
+    box-shadow: 0 1px $color-divider;
+  }
+}
+
+.is-touch {
+  cursor: pointer;
+}
+
+.is-contrast {
+  .o-figure {
+    color: $card-color-white;
+    text-shadow: 0;
+  }
+
+  .ripple {
+    background-color: $card-color-white;
+  }
+}
+
+.is-loading {
+  pointer-events: none;
+  cursor: none;
+  filter: grayscale(100%);
+
+  .ripple {
+    @include ripple-loading(cardloading, 2 * $card-width-normal, 2 * $card-width-normal);
+    width: 2 * $card-width-normal;
+    height: 2 * $card-width-normal;
+    animation-name: cardloading;
+  }
+}
+
+.o-card__image {
+  &, .o-figure {
+    height: $card-width-normal;
+  }
+
+  .o-figure {
+    padding: 0;
+
+    > h5 {
+      padding: $card-offset;
+      font-size: $font-size-small;
+      font-weight: $font-weight-bold;
+      background-color: $card-text-overlay;
+    }
+  }
+}
+
+.event {
+  .o-figure {
+    justify-content: flex-start;
+  }
+}
+
+.is-wide {
+  width: $card-width-large;
+}

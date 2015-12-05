@@ -23,7 +23,7 @@ module.exports = {
   devServer: devServer,
   cache: false,
   debug: true,
-  devtool: 'eval',
+  devtool: 'source-maps',
   context: path.resolve(__dirname, '../../' ),
   entry: [
     'webpack/hot/dev-server',

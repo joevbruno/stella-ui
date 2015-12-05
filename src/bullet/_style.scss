@@ -1,0 +1,72 @@
+.o-bullet-graph {
+    position: relative;
+    width: 500px;
+    height: 100px;
+}
+
+
+.o-bullet-graph__outer-base {
+    position: absolute;
+    left: 15px; 
+    right: 15px;
+    top: 15px;
+    z-index: 1;
+    width: 500px;
+    height: 60px;
+    background: #000; 
+
+}
+
+
+.o-bullet-graph__outer-top {
+    position: absolute;
+    left: 15px; 
+    right: 15px;
+    top: 15px;
+    z-index: 3;
+    width: 200px;
+    background: #71CBFD;
+    height: 60px;
+}
+
+
+.o-bullet-graph__inner-base {
+    position: absolute;
+    left: 15px; 
+    right: 15px;
+    top: 30px;
+    z-index: 4;
+    width: 490px;
+    height: 30px;
+    background: #111;
+        text-align: right;
+    padding-right: 10px;
+    padding-top: 2px;
+    letter-spacing: 2px;
+    font-size: 12px;
+}
+
+}
+
+.o-bullet-graph__inner-top {
+    position: absolute;
+    left: 15px;
+    right: 15px;
+    top: 30px;
+    z-index: 5;
+    width: 120px;
+    background: #71E260;
+    height: 30px;
+}
+
+.o-bullet-graph__marker {
+    position: absolute;
+    right: 55px;
+    top: 23px;
+    z-index: 7;
+    width: 5px;
+    height: 45px;
+    background: black;
+    opacity: 0;
+
+}

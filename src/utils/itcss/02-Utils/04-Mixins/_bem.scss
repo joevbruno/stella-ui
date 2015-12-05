@@ -1,0 +1,47 @@
+
+/*------------------------------------*\
+   BEM
+\*------------------------------------*/
+
+//// 
+/// @group BEM
+////
+
+/// An an element to a block. Ease naming difficulties and visual appearance.
+/// @example 
+/// .media {
+ /// @include element("image") {
+ /// Styles for `.media__image` element
+ /// @include modifier("full") {
+/// Styles for `.media__image--full` modified element
+/// }
+/// }
+/// @include modifier("new") {
+///  Styles for `.media--new` midifier
+/// }
+/// }
+
+@mixin element($element) {
+  &__#{$element} {
+    @content;
+  }
+}
+
+/// An a modifier to a block or element. Ease naming difficulties and visual appearance.
+/// @example 
+/// .media {
+ /// @include element("image") {
+ /// Styles for `.media__image` element
+ /// @include modifier("full") {
+/// Styles for `.media__image--full` modified element
+/// }
+/// }
+/// @include modifier("new") {
+///  Styles for `.media--new` midifier
+/// }
+/// }
+@mixin modifier($modifier) {
+  &--#{$modifier} {
+    @content;
+  }
+}

@@ -41,6 +41,7 @@ export default class Ripple extends React.Component {
     };
   };
   start = (data) => {
+    console.log('called srater');
     const { pageX, pageY } = data;
     document.addEventListener('mouseup', this.end);
     let {top, left, width} = this.getDescriptor(pageX, pageY);
@@ -54,6 +55,7 @@ export default class Ripple extends React.Component {
     this.setState({active: false});
   };
   render() {
+    console.log('call render');
     const { left, top, width } = this.state;
     const rippleStyle = {left: left, top: top, width: width, height: width};
     let className = 'ripple__body';

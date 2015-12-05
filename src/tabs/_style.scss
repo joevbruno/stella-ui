@@ -1,43 +1,44 @@
 
 @import "./config";
 
-.root {
+.o-tabs {
   position: relative;
 }
 
-.navigation {
+.o-tabs__navigation {
   box-shadow: inset 0 -1px $tab-navigation-border-color;
 }
 
-.label {
+.o-tab-label {
   padding: $tab-label-v-padding $tab-label-h-padding;
   font-size: $tab-text-height;
   font-weight: $font-weight-semi-bold;
   line-height: 1;
   color: $tab-text-inactive-color;
   text-transform: uppercase;
+  position: relative;
   transition-timing-function: $animation-curve-default;
   transition-duration: $animation-duration;
   transition-property: box-shadow, color;
 
-  &.active {
+  &.isActive {
     color: $tab-text-color;
   }
 
-  &.disabled {
+  &.isDisabled {
     opacity: $tab-label-disabled-opacity;
   }
 
-  &:not(.disabled) {
+  &:not(.isDisabled) {
     cursor: pointer;
   }
 
-  &.hidden {
+  &.isHidden {
     display: none;
   }
 }
 
-.pointer {
+.o-tabs__pointer {
   position: absolute;
   width: 0;
   height: $tab-pointer-height;
@@ -48,14 +49,14 @@
   transition-property: left, width;
 }
 
-.tab {
+.o-tab-content {
   padding: $tab-label-v-padding $tab-label-h-padding;
 
-  &:not(.active) {
+  &:not(.isActive) {
     display: none;
   }
 
-  &.active {
+  &.isActive {
     display: block;
   }
 }

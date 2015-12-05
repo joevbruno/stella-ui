@@ -1,0 +1,70 @@
+
+/*------------------------------------*\
+   UNIT CONVERSION
+\*------------------------------------*/
+
+//// 
+/// @group Units
+////
+
+@charset "UTF-8";
+
+
+/// Convert pixels to ems
+@function em($pxval, $base: $font-size) {
+  @if not unitless($pxval) {
+    $pxval: strip-units($pxval);
+  }
+  @if not unitless($base) {
+    $base: strip-units($base);
+  }
+  @return ($pxval / $base) * 1em;
+}
+
+/// Convert pixels to rems
+@function rem($pxval) {
+  @if not unitless($pxval) {
+    $pxval: strip-units($pxval);
+  }
+
+  $base: $font-size;
+  @if not unitless($base) {
+    $base: strip-units($base);
+  }
+  @return ($pxval / $base) * 1rem;
+}
+
+
+/// Strips the unit from a number.
+/// @param {Number (With Unit)} $value
+/// @example scss - Usage
+///   $dimension: strip-units(10em);
+/// @example css - CSS Output
+///   $dimension: 10;
+/// @return {Number (Unitless)}
+
+@function strip-units($value) {
+  @return ($value / ($value * 0 + 1));
+}
+
+
+/// Helper function for str-to-num fn.
+/// @source http://sassmeister.com/gist/9647408
+@function convert-units($number, $unit) {
+  $strings: "px", "cm", "mm", "%", "ch", "pica", "in", "em", "rem", "pt", "pc", "ex", "vw", "vh", "vmin", "vmax", "deg", "rad", "grad", "turn";
+  $units:   1px, 1cm, 1mm, 1%, 1ch, 1pica, 1in, 1em, 1rem, 1pt, 1pc, 1ex, 1vw, 1vh, 1vmin, 1vmax, 1deg, 1rad, 1grad, 1turn;
+  $index: index($strings, $unit);
+
+  @if not $index {
+    @warn "Unknown unit `#{$unit}`.";
+    @return false;
+  }
+
+  @if type-of($number) != "number" {
+    @warn "`#{$number} is not a number`";
+    @return false;
+  }
+
+  @return $number * nth($units, $index);
+}
+

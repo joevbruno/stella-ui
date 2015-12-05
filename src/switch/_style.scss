@@ -1,7 +1,6 @@
 
 @import "./config";
-.switch {
-.field {
+.o-checkbox {
   position: relative;
   display: block;
   height: $switch-total-height;
@@ -10,7 +9,7 @@
   vertical-align: middle;
 }
 
-.text {
+.o-checkbox__label {
   display: inline-block;
   padding-left: $unit;
   font-size: 1.4 * $unit;
@@ -31,7 +30,7 @@
   border-radius: $switch-track-height;
 }
 
-.thumb {
+.o-checkbox-box__thumb {
   @include material-animation-default(.28s);
   position: absolute;
   top: ($switch-track-height - $switch-thumb-size) / 2;
@@ -42,36 +41,35 @@
   transition-property: left;
 }
 
-.ripple {
+
+.o-checkbox__box.isChecked {
+  @extend %switch;
+  background: $switch-track-on-color;
+
+  .o-checkbox-box__thumb {
+    @include shadow-3dp();
+    left: $switch-track-length - $switch-thumb-size;
+    background: $switch-thumb-on-color;
+    .ripple {
   background-color: $switch-color;
   opacity: .3;
   transition-duration: 650ms;
 }
-
-.switch-on {
-  @extend %switch;
-  background: $switch-track-on-color;
-
-  .thumb {
-    @include shadow-3dp();
-    left: $switch-track-length - $switch-thumb-size;
-    background: $switch-thumb-on-color;
   }
 }
 
-.switch-off {
+.o-checkbox__box {
   @extend %switch;
   background: $switch-track-off-color;
 
-  .thumb {
+  .o-checkbox-box__thumb {
     @include shadow-2dp();
     left: 0;
     background: $switch-thumb-off-color;
-  }
-
   .ripple {
     background: $switch-off-ripple-color;
   }
+}
 }
 
 %thumb-focus {
@@ -88,43 +86,23 @@
   transform: translate(- $switch-focus-init-size / 2, - $switch-focus-init-size / 2);
 }
 
-.input {
+.o-checkbox__input {
   width: 0;
   height: 0;
   overflow: hidden;
   opacity: 0;
 
   &:focus:not(:active) {
-    + .switch-on > .thumb:before {
+    + .o-checkbox__box.isChecked > .o-checkbox__thumb:before {
       @extend %thumb-focus;
       background-color: $switch-on-focus-color;
       box-shadow: 0 0 0 $switch-focus-diff $switch-on-focus-color;
     }
 
-    + .switch-off > .thumb:before {
+    + .o-checkbox__box > .o-checkbox__thumb:before  {
       @extend %thumb-focus;
       background-color: $switch-off-focus-color;
       box-shadow: 0 0 0 $switch-focus-diff $switch-off-focus-color;
     }
   }
-}
-
-.disabled {
-  @extend .field;
-
-  .text {
-    color: $switch-disabled-text-color;
-  }
-
-  .switch-on, .switch-off {
-    cursor: auto;
-    background: $switch-disabled-track-color;
-  }
-
-  .thumb {
-    cursor: auto;
-    background-color: $switch-disabled-thumb-color;
-    border-color: transparent;
-  }
-}
 }

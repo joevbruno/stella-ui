@@ -25,7 +25,7 @@ import browserSync from 'browser-sync';
 
 // Setup
 const config = {
-  sass: { outputStyle: 'compact', errLogToConsole: true },
+  sass: { outputStyle: 'expanded', errLogToConsole: true },
   production: !!gutil.env.production,
   paths: {
     coreSrc: ['./example/src/styles/main.scss'],
@@ -47,13 +47,16 @@ const getSassy = (srcPath, destPath) => {
     .pipe( debug())
     .pipe( config.docs.publish ? docs(config.docs).on('error', notify.error) : gutil.noop() )
     .pipe( maps.init() )
-    .pipe( sass(config.sass) ).on( 'error', notify.error )
+    .pipe( sass(config.sass) ).on( 'error', function(err) {
+      console.log(err);
+    } )
     .pipe( maps.write() )
     .pipe( check(['*.css', '!*.map'], postcss(config.processors)) )
     .pipe( size() ) // outputs files size
     .pipe( config.production ? minify() : gutil.noop() )
     .pipe( config.production ? size() : gutil.noop() )
     .pipe( rename( (filePath) => {
+      console.log(filePath.base);
       filePath.basename = config.production ? filePath.basename + '.min' : filePath.basename;
       filePath.dirname += "../../../../example/public/css";
       return filePath;

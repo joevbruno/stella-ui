@@ -1,0 +1,76 @@
+/*------------------------------------*\
+   TYPOGRAPHY
+\*------------------------------------*/
+
+//// 
+/// @group Typography
+////
+
+@charset "UTF-8";
+
+/// Create a modular, scaled relationship between elements
+/// @require $font-size
+/// @require $modular-scale-ratio
+@function modular-scale($increment, $value: $font-size, $ratio: $modular-scale-ratio) {
+  $v1: nth($value, 1);
+  $v2: nth($value, length($value));
+  $value: $v1;
+
+  // scale $v2 to just above $v1
+  @while $v2 > $v1 {
+    $v2: ($v2 / $ratio); // will be off-by-1
+  }
+  @while $v2 < $v1 {
+    $v2: ($v2 * $ratio); // will fix off-by-1
+  }
+
+  // check AFTER scaling $v2 to prevent double-counting corner-case
+  $double-stranded: $v2 > $v1;
+
+  @if $increment > 0 {
+    @for $i from 1 through $increment {
+      @if $double-stranded and ($v1 * $ratio) > $v2 {
+        $value: $v2;
+        $v2: ($v2 * $ratio);
+      } @else {
+        $v1: ($v1 * $ratio);
+        $value: $v1;
+      }
+    }
+  }
+
+  @if $increment < 0 {
+    // adjust $v2 to just below $v1
+    @if $double-stranded {
+      $v2: ($v2 / $ratio);
+    }
+
+    @for $i from $increment through -1 {
+      @if $double-stranded and ($v1 / $ratio) < $v2 {
+        $value: $v2;
+        $v2: ($v2 / $ratio);
+      } @else {
+        $v1: ($v1 / $ratio);
+        $value: $v1;
+      }
+    }
+  }
+
+  @return $value;
+}
+
+/// Returns an EM value that is a multiple of our defined base vertical unit. For
+@function em-rhythm($lines: $base-vertical-unit, $font-size: $base-em-font-size, $silent: false) {
+  @if is-int($lines) == false and $silent == false {
+    @warn  #{$lines} + $not-integer-txt;
+  }
+  @return (strip-units($lines) * strip-units($base-vertical-unit)) / (strip-units($font-size) * strip-units($base-font-size)) + 0em;
+}
+
+/// Returns a unitless number that is a multiple of our defined base vertical unit.
+@function unitless-rhythm($lines: $base-line-multi, $font-size: $base-em-font-size, $silent: false) {
+  @if is-int($lines) == false and $silent == false {
+    @warn #{$lines} + $not-integer-txt;
+  }
+  @return ($lines * strip-units($base-vertical-unit)) / (strip-units($font-size) * strip-nits($base-font-size));
+}

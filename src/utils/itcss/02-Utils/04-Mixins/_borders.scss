@@ -1,0 +1,113 @@
+/*------------------------------------*\
+   BORDERS
+\*------------------------------------*/
+
+//// 
+/// @group Borders
+////
+
+@charset "UTF-8";
+
+/// Provides a quick method for targeting `border-color` on specific sides of a box. Use a `null` value to “skip” a side.
+/// @param {Arglist} $vals List of arguments
+/// @example scss - Usage
+///   .element {
+///     @include border-color(#a60b55 #76cd9c null #e8ae1a);
+///   }
+/// @example css - CSS Output
+///   .element {
+///     border-left-color: #e8ae1a;
+///     border-right-color: #76cd9c;
+///     border-top-color: #a60b55;
+///   }
+/// @require {mixin} directional-property
+/// @output `border-color`
+
+@mixin border-color($vals...) {
+  @include directional-property(border, color, $vals...);
+}
+
+
+/// Provides a quick method for targeting `border-style` on specific sides of a box. Use a `null` value to “skip” a side.
+/// @param {Arglist} $vals
+///   List of arguments
+///
+/// @example scss - Usage
+///   .element {
+///     @include border-style(dashed null solid);
+///   }
+///
+/// @example css - CSS Output
+///   .element {
+///     border-bottom-style: solid;
+///     border-top-style: dashed;
+///   }
+///
+/// @require {mixin} directional-property
+///
+/// @output `border-style`
+
+@mixin border-style($vals...) {
+  @include directional-property(border, style, $vals...);
+}
+
+/// Provides a quick method for targeting `border-width` on specific sides of a box. Use a `null` value to “skip” a side.
+/// @param {Arglist} $vals List of arguments
+/// @example scss - Usage
+///   .element {
+///     @include border-width(1em null 20px);
+///   }
+/// @example css - CSS Output
+///   .element {
+///     border-bottom-width: 20px;
+///     border-top-width: 1em;
+///   }
+/// @require {mixin} directional-property
+/// @output `border-width`
+
+@mixin border-width($vals...) {
+  @include directional-property(border, width, $vals...);
+}
+
+/// Provides a quick method for targeting `border-radius` on both corners on the side of a box.
+/// @param {Number} $radii  List of arguments
+/// @example scss - Usage
+///   .element-one {
+///     @include border-top-radius(5px);
+///   }
+///
+///   .element-two {
+///     @include border-left-radius(3px);
+///   }
+/// @example css - CSS Output
+///   .element-one {
+///     border-top-left-radius: 5px;
+///     border-top-right-radius: 5px;
+///   }
+///   .element-two {
+///     border-bottom-left-radius: 3px;
+///     border-top-left-radius: 3px;
+///   }
+/// @output `border-radius`
+
+@mixin border-top-radius($radii) {
+  border-top-left-radius: $radii;
+  border-top-right-radius: $radii;
+}
+
+@mixin border-right-radius($radii) {
+  border-bottom-right-radius: $radii;
+  border-top-right-radius: $radii;
+}
+
+@mixin border-bottom-radius($radii) {
+  border-bottom-left-radius: $radii;
+  border-bottom-right-radius: $radii;
+}
+
+@mixin border-left-radius($radii) {
+  border-bottom-left-radius: $radii;
+  border-top-left-radius: $radii;
+}
+
+

@@ -1,0 +1,116 @@
+
+/*------------------------------------*\
+    $MEDIA QUERIES
+\*------------------------------------*/
+
+////
+/// @group Media Queries
+////
+
+@charset "UTF-8";
+
+/// Media Query mixin
+
+/// @link https://github.com/sass-mq/sass-mq#responsive-mode-on-default Full documentation and examples
+///
+/// @example scss
+///  .element {
+///    @include mq($from: mobile) {
+///      color: red;
+///    }
+///    @include mq($until: tablet) {
+///      color: blue;
+///    }
+///    @include mq(mobile, tablet) {
+///      color: green;
+///    }
+///    @include mq($from: tablet, $and: '(orientation: landscape)') {
+///      color: teal;
+///    }
+///    @include mq(950px) {
+///      color: hotpink;
+///    }
+///    @include mq(tablet, $media-type: screen) {
+///      color: hotpink;
+///    }
+///    // Advanced use:
+///    $my-breakpoints: ( L: 900px, XL: 1200px );
+///    @include mq(L, $breakpoints: $my-breakpoints, $static-breakpoint: L) {
+///      color: hotpink;
+///    }
+///  }
+@mixin mq(
+    $from: false,
+    $until: false,
+    $and: false,
+    $media-type: $media-type,
+    $breakpoints: $breakpoints
+) {
+    $min-width: 0;
+    $max-width: 0;
+    $media-query: '';
+
+    // From: this breakpoint (inclusive)
+    @if $from {
+        @if type-of($from) == number {
+            $min-width: em($from);
+        } @else {
+            $min-width: em(get-breakpoint-width($from, $breakpoints));
+        }
+    }
+
+    // Until: that breakpoint (exclusive)
+    @if $until {
+        @if type-of($until) == number {
+            $max-width: em($until);
+        } @else {
+            $max-width: em(mq-get-breakpoint-width($until, $breakpoints)) - .01em;
+        }
+    }
+
+    @if $min-width != 0 { $media-query: '#{$media-query} and (min-width: #{$min-width})'; }
+    @if $max-width != 0 { $media-query: '#{$media-query} and (max-width: #{$max-width})'; }
+    @if $and            { $media-query: '#{$media-query} and #{$and}'; }
+
+    // Remove unnecessary media query prefix 'all and '
+    @if ($media-type == 'all' and $media-query != '') {
+        $media-type: '';
+        $media-query: str-slice(unquote($media-query), 6);
+    }
+
+    @media #{$media-type + $media-query} {
+        @content;
+    }
+  
+}
+
+/// Add a breakpoint 
+/// @param {String} $name - Name of the breakpoint
+/// @param {Number} $width - Width of the breakpoint
+/// @requires {Variable} $mq-breakpoints
+
+/// @example scss
+/// @include mq-add-breakpoint(tvscreen, 1920px);
+/// @include mq(tvscreen) {}
+@mixin add-breakpoint($name, $width) {
+    $new-breakpoint: ($name: $width);
+    $breakpoints: map-merge($breakpoints, $new-breakpoint) !global;
+}
+
+
+/// HiDPI mixin. 
+@mixin hidpi($ratio: 1.3) {
+  @media only screen and (-webkit-min-device-pixel-ratio: $ratio),
+  only screen and (min--moz-device-pixel-ratio: $ratio),
+  only screen and (-o-min-device-pixel-ratio: #{$ratio}/1),
+  only screen and (min-resolution: round($ratio * 96dpi)),
+  only screen and (min-resolution: $ratio * 1dppx) {
+    @content;
+  }
+}
+
+
+
+
+
+

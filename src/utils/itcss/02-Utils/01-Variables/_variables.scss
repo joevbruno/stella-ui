@@ -1,0 +1,710 @@
+﻿@charset "UTF-8";
+/*------------------------------------*\
+   MAIN VARAIBLES AND CONFIG FILE
+\*------------------------------------*/
+
+/* ===========================================================
+ * TO DO
+  - 
+  - 
+  - 
+  -
+  - 
+
+
+ * CHANGLE LOG
+ *  ========================================================== */
+
+
+/*------------------------------------*\
+    ASTHETIC RATIOS
+\*------------------------------------*/
+
+/// Ideal ratios for building scalable and asthetically sound UIs
+/// @group ratios
+$ratios: (
+  golden:           1.618,
+  minor-second:     1.067,
+  major-second:     1.125,
+  minor-third:      1.2,
+  major-third:      1.25,
+  perfect-fourth:   1.333,
+  augmented-fourth: 1.414,
+  perfect-fifth:    1.5,
+  minor-sixth:      1.6,
+  major-sixth:      1.667,
+  minor-seventh:    1.778,
+  major-seventh:    1.875,
+  octave:           2,
+  major-tenth:      2.5,
+  major-eleventh:   2.667,
+  major-twelfth:    3,
+  double-octave:    4,
+);
+
+/// Implementing the golden ratio as the default ratio for scale
+/// @group ratios
+$modular-scale-ratio: map-get($ratios, golden) !default;
+
+
+/*------------------------------------*\
+    TYPOGRAPHY
+\*------------------------------------*/
+
+/// Roboto Slab Font URL - Serif Font (Primary Header Font)
+/// @group Typography
+$font-url--roboto-slab: 'https://www.google.com/fonts#UsePlace:use/Collection:Roboto+Slab:100,300,400,700,800';
+/// Open Sans Font URL   - Sans Font (Primary Text Font)
+/// @group Typography
+$font-url--open-sans : 'https://www.google.com/fonts#UsePlace:use/Collection:Open+Sans:100,300,400,700,800';
+/// Primary Font -- Open Sans
+/// @group Typography
+$font-sans  : 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+/// Secondary Font -- Roboto Slab
+/// @group Typography
+$font-serif : 'Roboto Slab', Georgia, 'Times New Roman', serif !default; 
+/// Monospace Font -- Lucida Console
+/// @group Typography
+$font-mono  : 'Lucida Console', Monaco, monospace !default;
+
+/// Sass map for font weights
+/// @group Typography
+/// @source http://www.sitepoint.com/using-sass-maps/
+/// @example font-weight: map-get($font-weights, thin);
+$font-weights: (
+	thin   : 100,
+	light  : 300,
+	medium : 400,
+	bold   : 700,
+	heavy  : 900,
+);
+
+/// Base font size
+/// @group Typography
+$font-size     : 16px !default;
+
+/// Base line height
+/// @group Typography
+$line-height   : $font-size * map-get($ratios, golden);
+
+/// Base letter spacing
+/// @group Typography
+$letter-space  : 1px;
+
+
+/*------------------------------------*\
+    Colors
+\*------------------------------------*/
+
+/// Sass map for site colors
+/// @group Colors
+/// @example
+/// background: map-get($colors, red);
+$colors--base: (
+   navy--xxx : #212B35,
+   navy--xx  : #293644,
+   navy--x   : #455569,
+   navy--l   : #8BBBC4,
+   navy--ll  : #D6EAF3,
+   red       : #FF605D,
+   blue--l   : #00B5E5,
+   blue      : #028FFF,
+   green     : #00D076, 
+   yellow    : #EFDD55,
+   white     : #ffffff,
+   white--x  : #EAF2F4,
+   black     : #333333,
+   text      : #696969,
+);
+
+/// Sass map for colors by status using the color map
+/// @group Colors
+$colors--status: (
+   'primary' : map-get($colors--base, blue),
+   'default' : map-get($colors--base, blue),
+   'success' : map-get($colors--base, green),
+   'error'   : map-get($colors--base, red),
+   'warning' : map-get($colors--base, yellow),
+   'base'    : map-get($colors--base, white)
+); 
+
+/// Sass map for gradients
+/// @group Colors
+/// @example
+/// background: map-get($gradients, red);
+$gradients: (
+  red    : linear-gradient(to top left, #FB1C8C, #FF1C27),
+  purple : linear-gradient(to top left, #157CDE, #9F89FC),
+  blue   : linear-gradient(108deg, #70d0ee, #2a84d2 90%),
+);
+
+/// Material Colors Sass Map
+/// @source Inspired by https://github.com/nilskaspersson/Google-Material-UI-Color-Palette/
+$material-colors: (
+  'red': (
+    '50': #ffebee,
+    '100': #ffcdd2,
+    '200': #ef9a9a,
+    '300': #e57373,
+    '400': #ef5350,
+    '500': #f44336,
+    '600': #e53935,
+    '700': #d32f2f,
+    '800': #c62828,
+    '900': #b71c1c,
+    'a100': #ff8a80,
+    'a200': #ff5252,
+    'a400': #ff1744,
+    'a700': #d50000
+  ),
+
+  'pink': (
+    '50': #fce4ec,
+    '100': #f8bbd0,
+    '200': #f48fb1,
+    '300': #f06292,
+    '400': #ec407a,
+    '500': #e91e63,
+    '600': #d81b60,
+    '700': #c2185b,
+    '800': #ad1457,
+    '900': #880e4f,
+    'a100': #ff80ab,
+    'a200': #ff4081,
+    'a400': #f50057,
+    'a700': #c51162
+  ),
+
+  'purple': (
+    '50': #f3e5f5,
+    '100': #e1bee7,
+    '200': #ce93d8,
+    '300': #ba68c8,
+    '400': #ab47bc,
+    '500': #9c27b0,
+    '600': #8e24aa,
+    '700': #7b1fa2,
+    '800': #6a1b9a,
+    '900': #4a148c,
+    'a100': #ea80fc,
+    'a200': #e040fb,
+    'a400': #d500f9,
+    'a700': #aa00ff
+  ),
+
+  'deep-purple': (
+    '50': #ede7f6,
+    '100': #d1c4e9,
+    '200': #b39ddb,
+    '300': #9575cd,
+    '400': #7e57c2,
+    '500': #673ab7,
+    '600': #5e35b1,
+    '700': #512da8,
+    '800': #4527a0,
+    '900': #311b92,
+    'a100': #b388ff,
+    'a200': #7c4dff,
+    'a400': #651fff,
+    'a700': #6200ea
+  ),
+
+  'indigo': (
+    '50': #e8eaf6,
+    '100': #c5cae9,
+    '200': #9fa8da,
+    '300': #7986cb,
+    '400': #5c6bc0,
+    '500': #3f51b5,
+    '600': #3949ab,
+    '700': #303f9f,
+    '800': #283593,
+    '900': #1a237e,
+    'a100': #8c9eff,
+    'a200': #536dfe,
+    'a400': #3d5afe,
+    'a700': #304ffe
+  ),
+
+  'blue': (
+    '50': #e3f2fd,
+    '100': #bbdefb,
+    '200': #90caf9,
+    '300': #64b5f6,
+    '400': #42a5f5,
+    '500': #2196f3,
+    '600': #1e88e5,
+    '700': #1976d2,
+    '800': #1565c0,
+    '900': #0d47a1,
+    'a100': #82b1ff,
+    'a200': #448aff,
+    'a400': #2979ff,
+    'a700': #2962ff
+  ),
+
+  'light-blue': (
+    '50': #e1f5fe,
+    '100': #b3e5fc,
+    '200': #81d4fa,
+    '300': #4fc3f7,
+    '400': #29b6f6,
+    '500': #03a9f4,
+    '600': #039be5,
+    '700': #0288d1,
+    '800': #0277bd,
+    '900': #01579b,
+    'a100': #80d8ff,
+    'a200': #40c4ff,
+    'a400': #00b0ff,
+    'a700': #0091ea
+  ),
+
+  'cyan': (
+    '50': #e0f7fa,
+    '100': #b2ebf2,
+    '200': #80deea,
+    '300': #4dd0e1,
+    '400': #26c6da,
+    '500': #00bcd4,
+    '600': #00acc1,
+    '700': #0097a7,
+    '800': #00838f,
+    '900': #006064,
+    'a100': #84ffff,
+    'a200': #18ffff,
+    'a400': #00e5ff,
+    'a700': #00b8d4
+  ),
+
+  'teal': (
+    '50': #e0f2f1,
+    '100': #b2dfdb,
+    '200': #80cbc4,
+    '300': #4db6ac,
+    '400': #26a69a,
+    '500': #009688,
+    '600': #00897b,
+    '700': #00796b,
+    '800': #00695c,
+    '900': #004d40,
+    'a100': #a7ffeb,
+    'a200': #64ffda,
+    'a400': #1de9b6,
+    'a700': #00bfa5
+  ),
+
+  'green': (
+    '50': #e8f5e9,
+    '100': #c8e6c9,
+    '200': #a5d6a7,
+    '300': #81c784,
+    '400': #66bb6a,
+    '500': #4caf50,
+    '600': #43a047,
+    '700': #388e3c,
+    '800': #2e7d32,
+    '900': #1b5e20,
+    'a100': #b9f6ca,
+    'a200': #69f0ae,
+    'a400': #00e676,
+    'a700': #00c853
+  ),
+
+  'light-green': (
+    '50': #f1f8e9,
+    '100': #dcedc8,
+    '200': #c5e1a5,
+    '300': #aed581,
+    '400': #9ccc65,
+    '500': #8bc34a,
+    '600': #7cb342,
+    '700': #689f38,
+    '800': #558b2f,
+    '900': #33691e,
+    'a100': #ccff90,
+    'a200': #b2ff59,
+    'a400': #76ff03,
+    'a700': #64dd17
+  ),
+
+  'lime': (
+    '50': #f9fbe7,
+    '100': #f0f4c3,
+    '200': #e6ee9c,
+    '300': #dce775,
+    '400': #d4e157,
+    '500': #cddc39,
+    '600': #c0ca33,
+    '700': #afb42b,
+    '800': #9e9d24,
+    '900': #827717,
+    'a100': #f4ff81,
+    'a200': #eeff41,
+    'a400': #c6ff00,
+    'a700': #aeea00
+  ),
+
+  'yellow': (
+    '50': #fffde7,
+    '100': #fff9c4,
+    '200': #fff59d,
+    '300': #fff176,
+    '400': #ffee58,
+    '500': #ffeb3b,
+    '600': #fdd835,
+    '700': #fbc02d,
+    '800': #f9a825,
+    '900': #f57f17,
+    'a100': #ffff8d,
+    'a200': #ffff00,
+    'a400': #ffea00,
+    'a700': #ffd600
+  ),
+
+  'amber': (
+    '50': #fff8e1,
+    '100': #ffecb3,
+    '200': #ffe082,
+    '300': #ffd54f,
+    '400': #ffca28,
+    '500': #ffc107,
+    '600': #ffb300,
+    '700': #ffa000,
+    '800': #ff8f00,
+    '900': #ff6f00,
+    'a100': #ffe57f,
+    'a200': #ffd740,
+    'a400': #ffc400,
+    'a700': #ffab00
+  ),
+
+  'orange': (
+    '50': #fff3e0,
+    '100': #ffe0b2,
+    '200': #ffcc80,
+    '300': #ffb74d,
+    '400': #ffa726,
+    '500': #ff9800,
+    '600': #fb8c00,
+    '700': #f57c00,
+    '800': #ef6c00,
+    '900': #e65100,
+    'a100': #ffd180,
+    'a200': #ffab40,
+    'a400': #ff9100,
+    'a700': #ff6d00
+  ),
+
+  'deep-orange': (
+    '50': #fbe9e7,
+    '100': #ffccbc,
+    '200': #ffab91,
+    '300': #ff8a65,
+    '400': #ff7043,
+    '500': #ff5722,
+    '600': #f4511e,
+    '700': #e64a19,
+    '800': #d84315,
+    '900': #bf360c,
+    'a100': #ff9e80,
+    'a200': #ff6e40,
+    'a400': #ff3d00,
+    'a700': #dd2c00
+  ),
+
+  'brown': (
+    '50': #efebe9,
+    '100': #d7ccc8,
+    '200': #bcaaa4,
+    '300': #a1887f,
+    '400': #8d6e63,
+    '500': #795548,
+    '600': #6d4c41,
+    '700': #5d4037,
+    '800': #4e342e,
+    '900': #3e2723
+  ),
+
+  'grey': (
+    '50': #fafafa,
+    '100': #f5f5f5,
+    '200': #eeeeee,
+    '300': #e0e0e0,
+    '400': #bdbdbd,
+    '500': #9e9e9e,
+    '600': #757575,
+    '700': #616161,
+    '800': #424242,
+    '900': #212121
+  ),
+
+  'blue-grey': (
+    '50': #eceff1,
+    '100': #cfd8dc,
+    '200': #b0bec5,
+    '300': #90a4ae,
+    '400': #78909c,
+    '500': #607d8b,
+    '600': #546e7a,
+    '700': #455a64,
+    '800': #37474f,
+    '900': #263238,
+    '1000': #11171a
+  )
+);
+
+
+/*------------------------------------*\
+    MEDIA QUERIES
+\*------------------------------------*/
+
+/// Breakpoints for media queries and grid system
+/// @group media queries
+$breakpoints: (  
+    xs  : 320px,
+    sm  : 480px,
+    md  : 740px,
+    lg  : 980px,
+    xlg : 1300px
+) !default;
+
+/// Default media type for media queries
+/// @group media queries
+$media-type: all !default;
+
+
+/*------------------------------------*\
+    GRID SYSTEM
+\*------------------------------------*/
+
+/// Default number of columns in grid system
+/// @group grid
+$columns: 12 !default;
+
+/// Default gutter width for grid system
+/// @group grid
+$gutter: 0.5rem !default;
+
+
+/// A saine way to manage z-index
+/// @goup layout
+/// @source http://www.sitepoint.com/better-solution-managing-z-index-sass/
+$z-layers: (
+  "base--xx"  :  9001,
+  "base--x"   :  8000,
+  "base"      :  1,
+  "base--l"   : -1,
+  "base--ll"  : -9000
+);
+
+
+/*------------------------------------*\
+    SPACING
+\*------------------------------------*/
+
+// A sass map to achieve unified spacing - for padding and margin
+/// @group layout
+$spacing: (
+  xs : 1em,
+  sm : 1em * map-get($ratios, golden),
+  md : (1em * map-get($ratios, golden)) * 2,
+  lg : (1em * map-get($ratios, golden)) * 3,
+  xl : (1em * map-get($ratios, golden)) * 4, 
+);
+
+
+/*------------------------------------*\
+    BORDERS
+\*------------------------------------*/
+
+/// Default value for border radius
+/// @group borders
+$radius--default : 8px;
+
+/// Slightly rounded border radius
+/// @group borders
+$radius--curve   : 25px;
+
+/// Round circle border radius 
+/// @group borders
+$radius--circle  : 50%;
+
+
+/*------------------------------------*\
+    BUTTONS
+\*------------------------------------*/
+
+/// Generates variables for all buttons. Please note that you must use interpolation on the variable: `#{$all-buttons}`.
+/// @example scss - Usage
+///   #{$all-buttons-focus},
+///   #{$all-buttons-hover} {
+///     background-color: #0f0;
+///   }
+/// @example css - CSS Output
+///   button:focus,
+///   input[type="button"]:focus,
+///   input[type="reset"]:focus,
+///   input[type="submit"]:focus,
+///   button:hover,
+///   input[type="button"]:hover,
+///   input[type="reset"]:hover,
+///   input[type="submit"]:hover {
+///     background-color: #0f0;
+///   }
+/// @require assign-inputs
+/// @group buttons
+$buttons-list: 'button',
+               'input[type="button"]',
+               'input[type="reset"]',
+               'input[type="submit"]';
+
+
+
+/*------------------------------------*\
+    FORMS / INPUTS
+\*------------------------------------*/
+
+/// Generates variables for all text-based inputs. Please note that you must use interpolation on the variable: `#{$all-text-inputs}`.
+/// @example scss - Usage
+///   #{$all-text-inputs} {
+///     border: 1px solid #f00;
+///   }
+/// @example css - CSS Output
+///   input[type="color"],
+///   input[type="date"],
+///   input[type="datetime"],
+///   input[type="datetime-local"],
+///   input[type="email"],
+///   input[type="month"],
+///   input[type="number"],
+///   input[type="password"],
+///   input[type="search"],
+///   input[type="tel"],
+///   input[type="text"],
+///   input[type="time"],
+///   input[type="url"],
+///   input[type="week"],
+///   textarea {
+///     border: 1px solid #f00;
+///   }
+/// @require assign-inputs
+/// @group forms
+
+$text-inputs-list: 'input[type="color"]',
+                   'input[type="date"]',
+                   'input[type="datetime"]',
+                   'input[type="datetime-local"]',
+                   'input[type="email"]',
+                   'input[type="month"]',
+                   'input[type="number"]',
+                   'input[type="password"]',
+                   'input[type="search"]',
+                   'input[type="tel"]',
+                   'input[type="text"]',
+                   'input[type="time"]',
+                   'input[type="url"]',
+                   'input[type="week"]',
+                   'input:not([type])',
+                   'textarea';
+
+
+/*------------------------------------*\
+    ANIMATION
+\*------------------------------------*/
+
+/// Default transition duration
+/// @group animation
+$trns-duration  : 0.5s;
+
+/// A Sass map of various easing cubic-bezier functions
+/// @group animation
+$ease : (
+
+  ease-in-quad:      cubic-bezier(0.550,  0.085, 0.680, 0.530),
+  ease-in-cubic:     cubic-bezier(0.550,  0.055, 0.675, 0.190),
+  ease-in-quart:     cubic-bezier(0.895,  0.030, 0.685, 0.220),
+  ease-in-quint:     cubic-bezier(0.755,  0.050, 0.855, 0.060),
+  ease-in-sine:      cubic-bezier(0.470,  0.000, 0.745, 0.715),
+  ease-in-expo:      cubic-bezier(0.950,  0.050, 0.795, 0.035),
+  ease-in-circ:      cubic-bezier(0.600,  0.040, 0.980, 0.335),
+  ease-in-back:      cubic-bezier(0.600, -0.280, 0.735, 0.045),
+
+  ease-out-quad:     cubic-bezier(0.250,  0.460, 0.450, 0.940),
+  ease-out-cubic:    cubic-bezier(0.215,  0.610, 0.355, 1.000),
+  ease-out-quart:    cubic-bezier(0.165,  0.840, 0.440, 1.000),
+  ease-out-quint:    cubic-bezier(0.230,  1.000, 0.320, 1.000),
+  ease-out-sine:     cubic-bezier(0.390,  0.575, 0.565, 1.000),
+  ease-out-expo:     cubic-bezier(0.190,  1.000, 0.220, 1.000),
+  ease-out-circ:     cubic-bezier(0.075,  0.820, 0.165, 1.000),
+  ease-out-back:     cubic-bezier(0.175,  0.885, 0.320, 1.275),
+
+  ease-in-out-quad:  cubic-bezier(0.455,  0.030, 0.515, 0.955),
+  ease-in-out-cubic: cubic-bezier(0.645,  0.045, 0.355, 1.000),
+  ease-in-out-quart: cubic-bezier(0.770,  0.000, 0.175, 1.000),
+  ease-in-out-quint: cubic-bezier(0.860,  0.000, 0.070, 1.000),
+  ease-in-out-sine:  cubic-bezier(0.445,  0.050, 0.550, 0.950),
+  ease-in-out-expo:  cubic-bezier(1.000,  0.000, 0.000, 1.000),
+  ease-in-out-circ:  cubic-bezier(0.785,  0.135, 0.150, 0.860),
+  ease-in-out-back:  cubic-bezier(0.680, -0.550, 0.265, 1.550),
+
+);
+
+/*------------------------------------*\
+    CHARACTERS
+\*------------------------------------*/
+
+/// A sass map of various unicode characters, primarily for prototyping
+/// @group Characters
+$char : (
+  non-breaking-space: "\0020",
+  nbsp: "\00a0",
+  quot: "\0022",
+  left-quote: "\2018",
+  right-quote: "\2019",
+  left-double-quote: "\201C",
+  right-double-quite: "\201D",
+  left-single-angle-quote: "\2039",
+  right-single-angle-quote: "\203A",
+  left-double-angle-quote: "\00ab",
+  right-double-angle-quote: "\00bb",
+  emdash: "\2014",
+  endash: "\2013",
+  hyphen: "\2010",
+  amp: "\0026",
+  greater-than: "\003e",
+  less-than: "\003c",
+  times: "\00D7",
+  bigtimes: "\2715",
+  checkmark: "\2713",
+  sect: "\00a7",
+  para: "\00b6",
+  middot: "\00b7",
+  oslash: "\00f8",
+  bullet: "\2022",
+  whibullet: "\25E6",
+  horiz-ellipsis: "\2026",
+  vert-ellipsis: "\22EE",
+  mid-horiz-ellipsis: "\22EF",
+  up-tri: "\25b2",
+  down-tri: "\25bc",
+  left-tri: "\25c0",
+  right-tri: "\25b6",
+  diamond: "\25c6",
+  fisheye: "\25c9",
+  bullseye: "\25ce",
+  circle: "\25cf",
+  whitecircle: "\25cb",
+  square: "\25a0",
+  whitesquare: "\25a1",
+  ssquare: "\25aa",
+  swhitesquare: "\25ab",
+);
+
+
+
+
+
+
+
+

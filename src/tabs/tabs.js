@@ -1,59 +1,102 @@
 import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
-import mixin from 'mixin-decorator';
+import TabContent from './TabContent';
+import Tab from './Tab';  //Tab Header = LABEL
 
-@mixin(PureRenderMixin)
 export default class Tabs extends React.Component {
-  static displayName = 'Tabs';
   static propTypes = {
+    children: React.PropTypes.node,
     className: React.PropTypes.string,
-    index: React.PropTypes.number.isRequired,
-    onChange: React.PropTypes.func,
-    handleTabClick: React.PropTypes.func,
-    children: React.PropTypes.any
+    index: React.PropTypes.number,
+    onChange: React.PropTypes.func
   };
+
   static defaultProps = {
-    className: '',
     index: 0
   };
-  constructor(args) {
-    super(args);
+
+  state = {
+    pointer: {}
+  };
+
+  componentDidMount () {
+    setTimeout(() => {
+      this.updatePointer(this.props.index);
+    }, 100);
   }
-  renderLabels(labels) {
-    return labels.map((props) => {
-      return <label {...props}>{ props.label }</label>;
+
+  componentWillReceiveProps (nextProps) {
+    this.updatePointer(nextProps.index);
+  }
+
+  handleHeaderClick = (idx) => {
+    console.log('index', idx);
+    console.log(this.props.onChange);
+    if (this.props.onChange) this.props.onChange(idx);
+  };
+
+  parseChildren () {
+    const headers = [];
+    const contents = [];
+
+    React.Children.forEach(this.props.children, (item) => {
+      if (item.type.name === 'TabHeader') {
+        headers.push(item);
+        if (item.props.children) {
+          contents.push(<TabContent children={item.props.children}/>);
+        }
+      } else if (item.type.name === 'TabContent') {
+        contents.push(item);
+      }
+    });
+
+    return {headers, contents};
+  }
+
+  updatePointer (idx) {
+    console.log(this.refs.navigation.children);
+    const startPoint = this.refs.tabs.getBoundingClientRect().left;
+    const label = this.refs.navigation.children[idx].getBoundingClientRect();
+    this.setState({
+      pointer: {
+        top: `${this.refs.navigation.getBoundingClientRect().height}px`,
+        left: `${label.left - startPoint}px`,
+        width: `${label.width}px`
+      }
     });
   }
-  render() {
-    const labels = [];
-    const tabs = this.props.children.map((tab, index) => {
-      const active = this.props.index === index;
-      let className = `o-tab-label ${tab.props.className}`;
 
-      if (active) className += ` is-active`;
-      if (tab.props.disabled) className += ` is-disabled`;
-      if (tab.props.hidden) className += ` is-hidden`;
-
-      labels.push({
-        className: className,
-        label: tab.props.label,
-        key: index,
-        onClick: !tab.props.disabled ? this.handleTabClick.bind(null, index) : null
+  renderHeaders (headers) {
+    return headers.map((item, idx) => {
+      return React.cloneElement(item, {
+        key: idx,
+        active: this.props.index === idx,
+        onClick: this.handleHeaderClick.bind(this, idx, item)
       });
-
-      return React.cloneElement(tab, {active: active, key: index, tabIndex: index });
     });
+  }
 
+  renderContents (contents) {
+    return contents.map((item, idx) => {
+      return React.cloneElement(item, {
+        key: idx,
+        active: this.props.index === idx,
+        tabIndex: idx
+      });
+    });
+  }
+
+  render () {
     let className = 'o-tabs';
+    const { headers, contents } = this.parseChildren();
     if (this.props.className) className += ` ${this.props.className}`;
 
     return (
-      <div className={className}>
-        <nav className="o-tabs__navigation">
-          { this.renderLabels(labels) }
+      <div ref='tabs' className={className}>
+        <nav className='o-tabs__navigation' ref='navigation'>
+          {this.renderHeaders(headers)}
         </nav>
-        <span className="o-tabs__pointer" />
-        { tabs }
+        <span className='o-tabs__pointer' style={this.state.pointer} />
+        {this.renderContents(contents)}
       </div>
     );
   }

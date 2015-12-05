@@ -1,0 +1,262 @@
+/*------------------------------------*\
+   GRID PLACE FLEXBOW SYSTEM
+\*------------------------------------*/
+
+//// 
+/// @group layout
+////
+
+@charset "UTF-8";
+
+/// Output directional properties, for instance `margin`.
+///
+/// @access private
+///
+/// @param {String} $pre
+///   Prefix to use
+/// @param {String} $suf
+///   Suffix to use
+/// @param {List} $vals
+///   List of values
+///
+/// @require {function} collapse-directionals
+/// @require {function} contains-falsy
+
+@mixin directional-property($pre, $suf, $vals) {
+  // Property Names
+  $top:    $pre + "-top"    + if($suf, "-#{$suf}", "");
+  $bottom: $pre + "-bottom" + if($suf, "-#{$suf}", "");
+  $left:   $pre + "-left"   + if($suf, "-#{$suf}", "");
+  $right:  $pre + "-right"  + if($suf, "-#{$suf}", "");
+  $all:    $pre +             if($suf, "-#{$suf}", "");
+
+  $vals: collapse-directionals($vals);
+
+  @if contains-falsy($vals) {
+    @if nth($vals, 1) { #{$top}: nth($vals, 1); }
+
+    @if length($vals) == 1 {
+      @if nth($vals, 1) { #{$right}: nth($vals, 1); }
+    } @else {
+      @if nth($vals, 2) { #{$right}: nth($vals, 2); }
+    }
+
+    @if length($vals) == 2 {
+      @if nth($vals, 1) { #{$bottom}: nth($vals, 1); }
+      @if nth($vals, 2) { #{$left}:   nth($vals, 2); }
+    } @else if length($vals) == 3 {
+      @if nth($vals, 3) { #{$bottom}: nth($vals, 3); }
+      @if nth($vals, 2) { #{$left}:   nth($vals, 2); }
+    } @else if length($vals) == 4 {
+      @if nth($vals, 3) { #{$bottom}: nth($vals, 3); }
+      @if nth($vals, 4) { #{$left}:   nth($vals, 4); }
+    }
+  } @else {
+    #{$all}: $vals;
+  }
+}
+
+
+/// Easiy fill a parent element
+@mixin fill-parent() {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+
+// Easily create an outer container, likely for a flex grid
+@mixin outer-container($local-max-width: $max-width) {
+  max-width: $local-max-width;
+  margin: {
+    left: auto;
+    right: auto;
+  }
+}
+
+
+/// Provides a quick method for targeting `margin` on specific sides of a box. Use a `null` value to “skip” a side.
+/// @param {Arglist} $vals
+///   List of arguments
+/// @example scss - Usage
+///   .element {
+///     @include margin(null 10px 3em 20vh);
+///   }
+/// @example css - CSS Output
+///   .element {
+///     margin-bottom: 3em;
+///     margin-left: 20vh;
+///     margin-right: 10px;
+///   }
+/// @require {mixin} directional-property
+/// @output `margin`
+
+@mixin margin($vals...) {
+  @include directional-property(margin, false, $vals...);
+}
+
+
+/// Provides a quick method for targeting `padding` on specific sides of a box. Use a `null` value to “skip” a side.
+/// @param {Arglist} $vals
+///   List of arguments
+/// @example scss - Usage
+///   .element {
+///     @include padding(12vh null 10px 5%);
+///   }
+/// @example css - CSS Output
+///   .element {
+///     padding-bottom: 10px;
+///     padding-left: 5%;
+///     padding-top: 12vh;
+///   }
+/// @require {mixin} directional-property
+/// @output `padding`
+
+@mixin padding($vals...) {
+  @include directional-property(padding, false, $vals...);
+}
+
+///Spacing mixin to create uniform margin/padding
+/// An alternative to the @margin and @padding mixins
+@mixin spacing( $value, $type: margin, $orientation: vertical ) {
+  @if $orientation == vertical {
+    #{ $type }-top: $value;
+    #{ $type }-bottom: $value;
+  } @else {
+    #{ $type }-left: $value;
+    #{ $type }-right: $value;
+  }
+}
+
+
+/// Provides a quick method for setting an element’s position. Use a `null` value to “skip” a side.
+/// @param {Position} $position [relative]
+///   A CSS position value
+/// @param {Arglist} $coordinates [null null null null]
+///   List of values that correspond to the 4-value syntax for the edges of a box
+/// @example scss - Usage
+///   .element {
+///     @include position(absolute, 0 null null 10em);
+///   }
+/// @example css - CSS Output
+///   .element {
+///     left: 10em;
+///     position: absolute;
+///     top: 0;
+///   }
+/// @require {function} is-length
+/// @require {function} unpack
+
+@mixin position($position: relative, $coordinates: null null null null) {
+  @if type-of($position) == list {
+    $coordinates: $position;
+    $position: relative;
+  }
+
+  $coordinates: unpack($coordinates);
+
+  $offsets: (
+    top:    nth($coordinates, 1),
+    right:  nth($coordinates, 2),
+    bottom: nth($coordinates, 3),
+    left:   nth($coordinates, 4)
+  );
+
+  position: $position;
+
+  @each $offset, $value in $offsets {
+    @if is-length($value) {
+      #{$offset}: $value;
+    }
+  }
+}
+
+/// Sets the `width` and `height` of the element.
+/// @param {List} $size A list of at most 2 size values. If there is only a single value in `$size` it is used for both width and height. All units are supported.
+/// @example scss - Usage
+///   .first-element {
+///     @include size(2em);
+///   }
+///   .second-element {
+///     @include size(auto 10em);
+///   }
+/// @example css - CSS Output
+///   .first-element {
+///     width: 2em;
+///     height: 2em;
+///   }
+///   .second-element {
+///     width: auto;
+///     height: 10em;
+///   }
+@mixin size($value) {
+  $width: nth($value, 1);
+  $height: $width;
+
+  @if length($value) > 1 {
+    $height: nth($value, 2);
+  }
+
+  @if is-size($height) {
+    height: $height;
+  } @else {
+    @warn "`#{$height}` is not a valid length for the `$height` parameter in the `size` mixin.";
+  }
+
+  @if is-size($width) {
+    width: $width;
+  } @else {
+    @warn "`#{$width}` is not a valid length for the `$width` parameter in the `size` mixin.";
+  }
+}
+
+/// Easily center an element
+/// @param {String | Bool} $axis [false] Supply 'x' or 'y' to center vertically or horizontally.
+@mixin center-transform (
+  $axis: false // or x or y
+) {
+
+  position: absolute;
+
+  @if $axis != x {
+    top: 50%;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
+  @if $axis != y {
+    left: 50%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  $translate-val: null;
+
+  @if not($axis) {
+    $translate-val: translate(-50%, -50%);
+  }
+  @else if $axis != x {
+    $translate-val: translateY(-50%);
+  }
+  @else if $axis != y {
+    $translate-val: translateX(-50%);
+  }
+
+  -webkit-transform: $translate-val;
+  -ms-transform: $translate-val;
+  transform: $translate-val;
+}
+
+/// Easily hide an element
+@mixin hide-visually {
+
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+
+}
+

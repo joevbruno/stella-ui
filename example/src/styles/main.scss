@@ -1,4 +1,6 @@
-
+@import './_test.scss';
+@import 'default.scss';
+@import '../../../src/main';
 html,
 body {
   width: 100%;
@@ -18,6 +20,11 @@ body {
 
 body.open {
   overflow: hidden;
+}
+
+h1 {
+  font-size: 32px;
+  color: blue;
 }
 
 .app-bar {
@@ -350,3 +357,36 @@ main {
   src: url(/fonts/RobotoCondensed-BoldItalic.eot);
   src: local('Roboto Condensed Bold Italic'), local('RobotoCondensed-BoldItalic'), url(/fonts/RobotoCondensed-BoldItalic.eot) format('embedded-opentype'), url(/fonts/RobotoCondensed-BoldItalic.woff) format('woff');
 }
+.accordion-item__content {
+  display: none;
+}
+.accordion__item.is-open .accordion-item__content {
+  display: inline-block;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

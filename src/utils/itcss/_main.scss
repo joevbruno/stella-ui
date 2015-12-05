@@ -1,0 +1,63 @@
+
+
+@import "03-Generic/03-generic-dir";
+body {
+    background: #EEF1F6;
+}
+
+.view {
+    display: flex;
+    flex-wrap: wrap;
+    width: 60%;
+    margin: 0 auto;
+}
+
+.view__item {
+    min-width: 150px;
+    width: 30.5%;
+    background: #ffffff;
+    margin: 16px;
+    height: 200px;
+    border-radius: 4px;
+    box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.16),0px 2px 5px 0px rgba(0,0,0,0.23);
+    transition: all 1s ease;
+
+    .view-item__children {
+        width: 0;
+        height: 0;
+        padding: 0;
+        margin: 0;
+        transition: all 1s ease;
+    }
+}
+.view__header {
+    background: #ffffff;
+    margin: 16px;
+    height: 200px;
+    width: 100%;
+    border-radius: 4px;
+    box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.16),0px 2px 5px 0px rgba(0,0,0,0.23);
+}
+
+.view__item.is-showing {
+    width: 100%;
+    min-height: 80vh;
+    background: #314148;
+    display: flex;
+    justify-content: center;
+    align-item: center;
+    margin: 0;
+    box-shadow: none;
+
+    .view-item__children {
+        display: flex;
+        align-self: center;
+        min-width: 150px;
+        width: 30.85%;
+        background: #ffffff;
+        margin: 16px;
+        height: 200px;
+        border-radius: 4px;
+        box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.16),0px 2px 5px 0px rgba(0,0,0,0.23);
+    }
+}

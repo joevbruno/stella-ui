@@ -18,6 +18,7 @@
   right: 0;
   bottom: 0;
   left: 0;
+  background: none !important;
   pointer-events: none;
   overflow: hidden;
 }
@@ -26,13 +27,13 @@
   @extend %ripple;
   width: 0;
   height: 0;
-  opacity: $ripple-final-opacity;
+  opacity: 0 !important;
   transition-timing-function: $animation-curve-linear-out-slow-in;
   transition-duration: $ripple-duration;
-  transition-property: height, width;
+  transition-property: height, width, opacity;
 
-  &:not(.is-active) {
-    opacity: 0;
+  &.is-active {
+    opacity: $ripple-final-opacity !important;
     transition-property: height, width, opacity;
 
     &.is-restarting {

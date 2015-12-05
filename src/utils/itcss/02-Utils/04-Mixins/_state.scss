@@ -1,0 +1,32 @@
+
+/*------------------------------------*\
+   STATE
+\*------------------------------------*/
+
+////
+/// @group State
+////
+
+@charset "UTF-8";
+
+/// A mixin to easily target elements' active, focus, or hover states
+/// @param {Bool} $active [false] Whether to target the active state or note. Default does NOT target active. 
+@mixin selected (
+  $active: false
+) {
+
+  @if $active {
+    &:hover,
+    &:focus,
+    &:active {
+      @content;
+    }
+  }
+  @else {
+    &:hover,
+    &:focus {
+      @content;
+    }
+  }
+
+}

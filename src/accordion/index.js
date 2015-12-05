@@ -6,26 +6,25 @@ import mixin from 'mixin-decorator';
 export default class AccordionItem extends React.Component {
   static displayName = 'AccordionItem';
   static propTypes= {
-    open: React.PropTypes.bool,
     className: React.PropTypes.string,
-    onClick: React.PropTypes.func,
-    identifier: React.PropTypes.string,
     title: React.PropTypes.string,
-    children: React.PropTypes.children
+    children: React.PropTypes.any
   };
-  static defaultProps = {
-    open: false
-  };
+  constructor(args) {
+    super(args);
+    this.state = {};
+    this.state.open = false;
+  }
+  onClick = () => {
+    this.setState({open: !this.state.open});
+  }
   render() {
-    const className = this.props.open ? 'accordion__item is-open' : 'accordion_item';
+    const className = this.state.open ? 'accordion__item is-open' : 'accordion_item';
     return (
-      <div className={className}>
-        <button>toggle</button>
-        <div className="sectionhead" onClick={this.props.onClick.bind(this, this.props.identifier)}>{this.props.title}</div>
-        <div className="articlewrap">
-          <div className="article">
-            {this.props.children}
-          </div>
+      <div className={className} onClick={this.onClick}>
+        <div className="accordion-item__title">{this.props.title}</div>
+        <div className="accordion-item__content">
+          {this.props.children}
         </div>
       </div>
     );

@@ -1,0 +1,150 @@
+/*------------------------------------*\
+   GRID PLACE FLEXBOW SYSTEM
+\*------------------------------------*/
+
+//// 
+/// @group grid
+////
+
+@charset "UTF-8";
+
+/// Create fluid columns
+@mixin span-cols($_columns: 6, $_namespace: xs, $_media-type: screen) {
+  @if $_namespace != 'xs' {
+    flex-basis: get-col-percent($_columns);
+    max-width:  get-col-percent($_columns);
+  } @else {
+    @include mq($_namespace, $media-type) {
+      flex-basis: get-col-percent($_columns);
+      max-width:  get-col-percent($_columns);
+    }
+  }
+}
+
+/// Offset a col by applying margin left
+@mixin offset-cols($_columns: 6, $_namespace: xs, $_media-type: screen) {
+  @if $_namespace != 'xs' {
+     margin-left: get-col-percent($_columns);
+  } @else {
+    @include mq($_namespace, $_media-type) {
+      flex-basis: get-col-percent($_columns);
+      max-width:  get-col-percent($_columns);
+    }
+  }
+}
+
+/// Set an automatic default width for a parent's children
+@mixin cycle($_columns: 2, $_namespace: xs, $_media-type: screen) {
+  & > * {
+    @include span-cols($_columns, $_namespace, $_media-type)
+  }
+}
+
+
+/// Display flex on a container
+/// @group Grid
+@mixin flex-base {
+  box-sizing: border-box;
+  display: flex;
+}
+
+/// Create a flexbox row
+/// @group Grid 
+@mixin flex-row {
+  @include flex-base;
+  @include cycle(); 
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+/// Create a flexbox column
+/// @group Grid 
+@mixin flex-col {
+  @include flex-base; 
+  flex-direction: column;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+/// Evenly distributed flexbox column
+/// @group Grid 
+@mixin flex-col-namespace {
+  @include flex-col;
+  flex-grow: 1;
+  flex-basis: 0;
+  max-width: 100% ;
+}
+
+/// Reverse flex row
+/// @group Grid 
+@mixin flex--reverse {
+  flex-direction: row-reverse;
+}
+/// Basically float the flexbox row left or "start"
+/// @group Grid 
+@mixin flex--start {
+  justify-content: flex-start;
+  text-align: start;
+}
+
+/// Center the flex row content
+/// @group Grid 
+@mixin flex--center {
+  justify-content: center;
+  text-align: center;
+}
+
+/// Basically float the flex box row right or 'end'
+/// @group Grid 
+@mixin flex--end {
+  justify-content: flex-end;
+  text-align: end;
+}
+
+/// Vertically align top
+/// @group Grid 
+@mixin flex--top {
+  align-items: flex-start;
+}
+
+/// Vertically align middle
+/// @group Grid 
+@mixin flex--middle {
+  align-items: center;
+}
+
+/// Vertically align flex box bottom
+/// @group Grid 
+@mixin flex--bottom {
+  align-items: flex-end;
+}
+
+/// flexbox justify content around
+/// @group Grid 
+@mixin flex--around-xs {
+  justify-content: space-around;
+}
+
+/// flexbox justify content between
+/// @group Grid 
+@mixin flex--between {
+  justify-content: space-between;
+}
+
+/// Move flex box item to tbe beginning
+/// @group Grid 
+@mixin flex--first {
+  order: -1;
+}
+
+/// Move flex box item to tbe end
+/// @group Grid 
+@mixin flex--last {
+  order: 1;
+}
+
+
+
+
+
+

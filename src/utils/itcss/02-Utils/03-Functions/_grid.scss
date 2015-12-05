@@ -1,0 +1,32 @@
+/*------------------------------------*\
+   COLOR FUNCTIONS
+   NOTE: THESE FUNCTIONS ARE IN ADDITION TO SASS'S NATIVE COLOR FUNCTIONS.
+\*------------------------------------*/
+@charset "UTF-8";
+
+////
+/// @group Grid
+////
+
+/// Calculate the width of a column as a percent
+/// @param {Int} $column-num [4] - How many of the total number of columns to span.
+/// @requires $columns
+/// @return {int} a percentage width
+@function get-col-percent($column-num: 4) {
+  @return $column-num / $columns * 100%;
+}
+
+/// Get the breakpoint width from the $breakpoints sass map
+/// @param {String} $name - The name of key in the breakpoints sass map to access val
+/// @param {Map} $breakpoints - The breakpoints sass map variable
+/// @require $breakpoints
+/// @return {int} a percentage width
+@function get-breakpoint-width($name, $breakpoints: $breakpoints) {
+    @if map-has-key($breakpoints, $name) {
+        @return map-get($breakpoints, $name);
+    } @else {
+        @return "Breakpoint #{$name} wasn't found in $breakpoints.";
+    }
+}
+
+

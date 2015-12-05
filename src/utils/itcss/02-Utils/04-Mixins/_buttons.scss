@@ -1,0 +1,51 @@
+
+
+%button {
+    @include margin( em(10px) auto );
+    min-width: 125px;
+    max-width: 350px;
+    width: auto;
+    min-height: 60px;
+    position: relative;
+    text-align: center;
+    font-size: $font-size;
+    text-transform: none;
+    box-shadow: none;
+    outline: none; 
+}
+
+@mixin btn--flat( 
+	$text-color: map-get($colors--base, white),
+ 	$button-color: map-get($colors--base, blue) 
+) {
+	@extend button;
+	background: $button-color;
+    border-radius: $radius--default;
+    border: none;
+    color: $text-color;
+    transition: all 0.7 ease; 
+
+    &:hover, &:active, &:focus {
+    	background: darken($button-color, 15%);
+    	transition: all 0.7 ease; 
+    } 
+
+}
+
+@mixin btn--ghost(
+ 	$text-color: map-get($colors--base, blue),
+ 	$button-color: map-get($colors--base, blue)
+) {
+ 	@extend button;
+ 	background: transparent;
+    border-radius: $radius--curve;
+    border: 1px solid $button-color;
+    color: $text-color;
+    transition: all 0.7 ease; 
+
+    &:hover, &:active, &:focus {
+    	border-color: darken($button-color, 15%);
+    	transform: scale(1.1);
+    	transition: all 0.7 ease; 
+    } 
+}

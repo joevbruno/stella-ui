@@ -1,0 +1,71 @@
+/*------------------------------------*\
+   FOOTER
+\*------------------------------------*/
+
+//// 
+/// @group Footer
+////
+
+@charset "UTF-8";
+
+/// Ensure that your fixed-height footer stays down at the bottom of the viewport even if your content is too short to keep it down naturally.
+/// @param {Int} $height
+/// @param {String} $wrapper ['.footer__area'] Wrapper class for the footer.
+/// @param {String} $footer ['.footer--stricky'] Class for the footer.
+@mixin sticky-footer-fixed (
+  $height,
+  $wrapper: ".footer__area",
+  $footer: ".footer--sticky"
+) {
+
+  html,
+  body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  #{$wrapper} {
+    min-height: 100%;
+    margin-bottom: -$height;
+    &:after {
+      content: "";
+      display: block;
+    }
+  }
+
+  #{$wrapper}:after,
+  #{$footer} {
+    height: $height;
+  }
+
+}
+
+/// Ensure that your fluid-height footer stays down at the bottom of the viewport, no matter what.
+/// @source https://davidtheclark.github.io/scut/sticky-footer-fluid.html
+/// @source https://pixelsvsbytes.com/2011/09/sticky-css-footers-the-flexible-way/
+/// @param {String} $wrapper ['.footer__area'] Wrapper class for the footer.
+/// @param {String} $footer ['.footer--stricky'] Class for the footer.
+@mixin sticky-footer-fluid (
+  $wrapper: ".footer__area",
+  $footer: ".footer--sticky"
+) {
+
+  html,
+  body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  #{$wrapper} {
+    display: table;
+    height: 100%;
+    width: 100%;
+  }
+
+  #{$footer} {
+    display: table-row;
+    height: 1px;
+  }
+}

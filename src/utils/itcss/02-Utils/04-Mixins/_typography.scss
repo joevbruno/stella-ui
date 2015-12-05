@@ -1,0 +1,194 @@
+﻿
+/*------------------------------------*\
+   TYPOGRAPHY
+\*------------------------------------*/
+
+////
+/// @group Typography
+////
+
+@charset "UTF-8";
+
+/// A basic mixin to include some basic header styles
+/// @param {Int} $num - the number to multiply the golden rule by.
+@mixin headline($num) {
+    @include margin(em(20px) auto em(5px));
+    @include padding(em(5px));
+    font-size: rem($num * map-get($ratios, golden) * $font-size);
+    font-weight: map-get($font-weights, thin);
+    color: map-get($colors--base, black);
+    letter-spacing: em(5px);
+}
+
+/// Truncates text and adds an ellipsis to represent overflow.
+/// @param {Number} $width [100%]
+///   Max-width for the string to respect before being truncated
+/// @example scss - Usage
+///   .element {
+///     @include ellipsis;
+///   }
+/// @example css - CSS Output
+///   .element {
+///     display: inline-block;
+///     max-width: 100%;
+///     overflow: hidden;
+///     text-overflow: ellipsis;
+///     white-space: nowrap;
+///     word-wrap: normal;
+///   }
+
+@mixin ellipsis($width: 100%) {
+  display: inline-block;
+  max-width: $width;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: normal;
+}
+
+/// Create horizontal lines extending from either side of center-aligned text.
+/// @source https://davidtheclark.github.io/scut/side-lined.html
+/// @example
+///.eg-side-lined-3 {
+/// @include scut-side-lined($double: 0.3em, $color: $eg-muted, $v-adjust: 0.05em);
+/// }
+@mixin side-lined (
+  $height: 1px,
+  $space: 0.5em,
+  $color: inherit,
+  $style: solid,
+  $v-adjust: false,
+  $double: false
+) {
+
+  display: block;
+  overflow: hidden;
+  text-align: center;
+
+  &:before,
+  &:after {
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    width: 50%;
+
+    border-top-style: $style;
+    border-top-width: $height;
+
+    @if $color != inherit {
+      border-top-color: $color;
+    }
+
+    @if $v-adjust != false {
+      bottom: $v-adjust;
+    }
+
+    @if $double != false {
+      height: $double;
+      border-bottom-style: $style;
+      border-bottom-width: $height;
+      @if $color != inherit {
+        border-bottom-color: $color;
+      }
+    }
+  }
+
+  &:before {
+    right: $space;
+    margin-left: -50%;
+  }
+  &:after {
+    left: $space;
+    margin-right: -50%;
+  }
+
+}
+
+/// Remove italics from text
+@mixin reverse-italics (
+  $elements: null
+) {
+
+  $element-list: em, cite, i;
+  font-style: italic;
+  #{join($element-list, $elements)} {
+    font-style: normal;
+  }
+
+}
+
+/// Add a border below a link
+/// @source https://davidtheclark.github.io/scut/link-bb.html
+@mixin link-border-bottom (
+  $color: inherit,
+  $style: solid,
+  $width: 1px
+) {
+  text-decoration: none;
+  border-bottom-width: $width;
+  border-bottom-style: $style;
+  @if $color != inherit {
+    border-bottom-color: $color;
+  }
+}
+
+/// Indent paragraphs instead of spacing them.
+/// @source https://davidtheclark.github.io/scut/indented-ps.html
+@mixin indent-paragraph (
+  $indent: 1.5em,
+  $no-first-indent: true
+) {
+
+  p {
+    margin: 0;
+    text-indent: $indent;
+  }
+
+  @if $no-first-indent {
+    p:first-of-type {
+      text-indent: 0;
+    }
+  }
+
+}
+
+/// Implement a "hanging indent," which applies to all lines but the first — as opposed to the "normal" indent (applying only to the first line), that you're accustomed to from paragraphs in those print publications you may have glanced at before computers took over your life.
+/// @source https://davidtheclark.github.io/scut/hanging-indent.html
+@mixin hanging-indent (
+  $indent: 1em
+) {
+
+  // padding-left creates the indent,
+  // while text-indent pulls the first line
+  // back to the edge.
+
+  padding-left: $indent;
+  text-indent: -$indent;
+
+}
+
+/// Provides an easy way to change the `word-wrap` property.
+/// @param {String} $wrap [break-word]
+///   Value for the `word-break` property.
+/// @example scss - Usage
+///   .wrapper {
+///     @include word-wrap(break-word);
+///   }
+/// @example css - CSS Output
+///   .wrapper {
+///     overflow-wrap: break-word;
+///     word-break: break-all;
+///     word-wrap: break-word;
+///   }
+
+@mixin word-wrap($wrap: break-word) {
+  overflow-wrap: $wrap;
+  word-wrap: $wrap;
+
+  @if $wrap == break-word {
+    word-break: break-all;
+  } @else {
+    word-break: $wrap;
+  }
+}

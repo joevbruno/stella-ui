@@ -1,0 +1,76 @@
+
+@import "./config";
+
+.o-drawer--left, .o-drawer--right {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 2;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+}
+
+.o-drawer--left.is-active, .o-drawer--right.is-active  {
+  pointer-events: all;
+
+  & .o-drawer__content {
+    transition-delay: $animation-delay;
+    transform: translateX(0);
+  }
+
+ & .o-drawer__overlay {
+    opacity: $color-overlay-opacity;
+  }
+}
+
+.o-drawer--left {
+  & .o-drawer__content {
+    left: 0;
+    border-right: 1px solid $drawer-border-color;
+  }
+
+  &:not(.is-active) > .o-drawer__content {
+    transform: translateX(- $drawer-width);
+  }
+}
+
+.o-drawer--right {
+  & .o-drawer__content {
+    right: 0;
+    border-left: 1px solid $drawer-border-color;
+  }
+
+  &:not(.is-active) > .o-drawer__content {
+    transform: translateX($drawer-width);
+  }
+}
+
+.o-drawer__overlay {
+  width: 100%;
+  height: 100%;
+  background-color: $color-overlay;
+  opacity: 0;
+  transition-timing-function: $animation-curve-default;
+  transition-duration: $animation-duration;
+  transition-property: opacity;
+}
+
+.o-drawer__content {
+  @include shadow-2dp();
+  position: absolute;
+  top: 0;
+  display: block;
+  width: $drawer-width;
+  height: 100%;
+  overflow-y: scroll;
+  color: $drawer-text-color;
+  background-color: $drawer-bg-color;
+  transition-delay: 0s;
+  transition-timing-function: $animation-curve-default;
+  transition-duration: $animation-duration;
+  transition-property: transform;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
